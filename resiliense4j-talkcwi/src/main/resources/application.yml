@@ -1,0 +1,32 @@
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      servicoA:
+        baseConfig: default
+        slidingWindowSize: 10
+        failureRateThreshold: 20
+      servicoB:
+        baseConfig: default
+
+    configs:
+      default:
+        registerHealthIndicator: true
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        failureRateThreshold: 50
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 4
+        waitDurationInOpenState: 60s
+        slowCallDurationThreshold: 20s
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
